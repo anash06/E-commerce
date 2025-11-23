@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MGM Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block head %}{% endblock %}
+    {% set is_admin = user and user['role']=='admin' %}
+</head>
+<body>
+<header class="header">
+    <nav class="nav">
+        <a href="{{ url_for('index') }}" class="logo">MGM Store</a>
+        <a href="{{ url_for('index') }}" class="btn btn-outline">Home</a>
+        <a href="{{ url_for('contact') }}" class="btn btn-outline">Contact</a>
+        {% if user and user['role']=='customer' %}
+            <a href="{{ url_for('my_orders') }}" class="btn btn-outline">My Orders</a>
+        {% endif %}
+        <a href="{{ url_for('view_cart') }}" class="btn">Cart{% if session.get('cart') %} <span class="badge">{{ (session.get('cart')|length) }}</span>{% endif %}</a>
+        <div class="spacer"></div>
+        {% if user %}
+            <span class="meta">{{ user['name'] }}</span>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        {% else %}
+            <a href="{{ url_for('signup') }}" class="btn btn-outline">Signup</a>
+            <a href="{{ url_for('login') }}" class="btn">Login</a>
+        {% endif %}
+        {% if is_admin %}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn">Admin</a>
+        {% endif %}
+    </nav>
+    </header>
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash">
+            {% for message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">{{ 'Edit' if product else 'New' }} Product</h2>
+<form method="post" class="form">
+    <div class="field"><label>Name</label><input name="name" value="{{ product['name'] if product }}" required></div>
+    <div class="field"><label>Description</label><textarea name="description">{{ product['description'] if product }}</textarea></div>
+    <div class="field"><label>Price</label><input name="price" type="number" step="0.01" value="{{ product['price'] if product }}" required></div>
+    <div class="field"><label>Stock</label><input name="stock" type="number" value="{{ product['stock'] if product }}" required></div>
+    <div class="field"><label>Image URL</label><input name="image_url" value="{{ product['image_url'] if product }}" placeholder="https://... or data:image/..." ></div>
+    <div class="actions"><button class="btn" type="submit">Save</button><a class="btn btn-outline" href="{{ url_for('admin_products') }}">Back</a></div>
+</form>
+{% endblock %}

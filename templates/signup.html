@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Customer Signup</h2>
+<form method="post" class="form">
+    <div class="field"><label>Name</label><input name="name" required></div>
+    <div class="field"><label>Email</label><input name="email"></div>
+    <div class="field"><label>Phone</label><input name="phone"></div>
+    <div class="field"><label>Password</label><input name="password" type="password" required></div>
+    <div class="actions"><button class="btn" type="submit">Signup</button></div>
+</form>
+{% endblock %}

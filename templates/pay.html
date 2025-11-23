@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Pay for Order #{{ order['id'] }}</h2>
+<div class="card">
+  <p>Amount: <span class="price">₹{{ '%.2f'|format(order['total']) }}</span></p>
+  <p>Scan this UPI QR using any UPI app or tap the link below.</p>
+  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ qr_data }}" alt="UPI QR Code" onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='block'" style="border:1px solid var(--border);border-radius:8px" />
+    <div>
+      <p><strong>UPI ID:</strong> 7418304663@upi</p>
+      <p><a class="btn" href="{{ upi_uri }}">Open UPI App</a></p>
+    </div>
+  </div>
+  <div id="qr-fallback" style="display:none;margin-top:8px">
+    <p class="meta">QR failed to load. Use the button above or copy this address:</p>
+    <code>{{ upi_uri }}</code>
+  </div>
+  <form method="post" class="form" style="margin-top:16px">
+    <div class="field">
+      <label>Enter UPI Transaction Reference</label>
+      <input type="text" name="transaction_ref" placeholder="e.g., 1234ABCD5678" required>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Submit Reference</button>
+      <a class="btn btn-outline" href="/order/{{ order['id'] }}/invoice">Back</a>
+    </div>
+    <p class="meta">After submitting, your order will show Pending until admin verifies.</p>
+  </form>
+</div>
+{% endblock %}

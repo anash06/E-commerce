@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Sales Report</h2>
+<div class="card">
+  <form method="get">
+    <div class="field">
+      <label>Select Date</label>
+      <input type="date" name="date" value="{{ selected }}">
+    </div>
+    <div class="actions"><button class="btn" type="submit">View</button><a class="btn" href="#" onclick="window.print(); return false;">Print PDF</a></div>
+  </form>
+</div>
+<h3 class="section-title">Last 7 Days</h3>
+<table class="table">
+  <tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>
+  {% for s in summary %}
+  <tr>
+    <td>{{ s['d'] }}</td>
+    <td>{{ s['orders'] }}</td>
+    <td>₹{{ '%.2f'|format(s['revenue'] or 0) }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% if orders and orders|length %}
+<h3 class="section-title">Orders on {{ selected }}</h3>
+<table class="table">
+  <tr><th>ID</th><th>Customer</th><th>Products</th><th>Status</th><th>Total</th><th>Address</th></tr>
+  {% for o in orders %}
+  <tr>
+    <td>{{ o['id'] }}</td>
+    <td>{{ o['customer_name'] }}</td>
+    <td>{{ o['product_names'] or '—' }}</td>
+    <td>{{ o['status'] }}</td>
+    <td>₹{{ '%.2f'|format(o['total']) }}</td>
+    <td>{{ o['shipping_address'] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

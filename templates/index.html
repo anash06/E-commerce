@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Products</h2>
+<div class="grid">
+    {% for p in products %}
+        <div class="card">
+            {% if p['image_url'] %}
+            <img class="product-img" src="{{ p['image_url'] }}" alt="{{ p['name'] }}">
+            {% endif %}
+            <h3><a href="{{ url_for('product_detail', pid=p['id']) }}">{{ p['name'] }}</a></h3>
+            <p class="meta">{{ p['description'] }}</p>
+            <div class="list-item">
+                <span class="price">₹{{ '%.2f'|format(p['price']) }}</span>
+                <span class="meta">Stock: {{ p['stock'] }}</span>
+            </div>
+            <div class="actions">
+                <a class="btn" href="{{ url_for('product_detail', pid=p['id']) }}">View</a>
+                <form method="post" action="{{ url_for('cart_add') }}" style="display:inline">
+                    <input type="hidden" name="product_id" value="{{ p['id'] }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button class="btn" type="submit">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p class="meta">No products yet</p>
+    {% endfor %}
+    </div>
+{% endblock %}

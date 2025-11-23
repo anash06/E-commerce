@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Orders</h2>
+<div class="actions"><a class="btn" href="{{ url_for('admin_orders_new') }}">Create Order</a></div>
+<table class="table">
+    <tr><th>ID</th><th>Customer</th><th>Status</th><th>Total</th><th>Created</th><th>Address</th><th>Reference</th><th>Actions</th></tr>
+    {% for o in orders %}
+    <tr id="order-row-{{ o['id'] }}">
+        <td>{{ o['id'] }}</td>
+        <td>{{ o['customer_name'] }}</td>
+        <td class="status-cell">{{ o['status'] }}</td>
+        <td>₹{{ '%.2f'|format(o['total']) }}</td>
+        <td>{{ o['created_at'] }}</td>
+        <td>{{ o['shipping_address'] }}</td>
+        <td class="ref-cell">{{ o['payment_txn'] or '-' }}</td>
+        <td>
+            <a class="btn" href="/order/{{ o['id'] }}/invoice">Invoice</a>
+            {% if o['status'] == 'pending' %}
+            <form method="post" action="/admin/orders/{{ o['id'] }}/confirm" style="display:inline">
+                <button class="btn" type="submit">Confirm</button>
+            </form>
+            <form method="post" action="/admin/orders/{{ o['id'] }}/reject" style="display:inline;margin-left:8px">
+                <button class="btn btn-danger" type="submit">Reject</button>
+            </form>
+            {% endif %}
+            {% if o['status'] != 'dispatched' %}
+            <form method="post" action="/admin/orders/{{ o['id'] }}/dispatch" style="display:inline">
+                <button class="btn" type="submit">Mark Dispatched</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<!-- no inline JS needed; confirm and reject behave like dispatched button -->
+{% endblock %}

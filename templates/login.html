@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Customer Login</h2>
+<form method="post" class="form">
+    <div class="field"><label>Email or Phone</label><input name="identity" required></div>
+    <div class="field"><label>Password</label><input name="password" type="password" required></div>
+    <div class="actions"><button class="btn" type="submit">Login</button></div>
+</form>
+{% endblock %}

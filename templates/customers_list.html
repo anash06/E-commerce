@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Customers</h2>
+<div class="actions"><a class="btn" href="{{ url_for('admin_customers_new') }}">Add Customer</a></div>
+<table class="table">
+    <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Actions</th></tr>
+    {% for c in customers %}
+    <tr>
+        <td>{{ c['id'] }}</td>
+        <td>{{ c['name'] }}</td>
+        <td>{{ c['email'] }}</td>
+        <td>{{ c['phone'] }}</td>
+        <td>
+            <a class="btn" href="{{ url_for('admin_customers_edit', cid=c['id']) }}">Edit</a>
+            <form style="display:inline" method="post" action="{{ url_for('admin_customers_delete', cid=c['id']) }}">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

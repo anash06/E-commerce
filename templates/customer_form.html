@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">{{ 'Edit' if customer else 'New' }} Customer</h2>
+<form method="post" class="form">
+    <div class="field"><label>Name</label><input name="name" value="{{ customer['name'] if customer }}" required></div>
+    <div class="field"><label>Email</label><input name="email" value="{{ customer['email'] if customer }}"></div>
+    <div class="field"><label>Phone</label><input name="phone" value="{{ customer['phone'] if customer }}"></div>
+    {% if not customer %}
+    <div class="field"><label>Password</label><input name="password" type="password" required></div>
+    {% endif %}
+    <div class="actions"><button class="btn" type="submit">Save</button><a class="btn btn-outline" href="{{ url_for('admin_customers') }}">Back</a></div>
+</form>
+{% endblock %}

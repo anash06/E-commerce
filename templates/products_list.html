@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Products</h2>
+<div class="actions"><a class="btn" href="{{ url_for('admin_products_new') }}">Add Product</a></div>
+<table class="table">
+    <tr><th>ID</th><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+    {% for p in products %}
+    <tr>
+        <td>{{ p['id'] }}</td>
+        <td>{% if p['image_url'] %}<img src="{{ p['image_url'] }}" alt="{{ p['name'] }}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid var(--border)">{% else %}<span class="meta">No image</span>{% endif %}</td>
+        <td>{{ p['name'] }}</td>
+        <td>₹{{ '%.2f'|format(p['price']) }}</td>
+        <td>{{ p['stock'] }}</td>
+        <td>
+            <a class="btn" href="{{ url_for('admin_products_edit', pid=p['id']) }}">Edit</a>
+            <form style="display:inline" method="post" action="{{ url_for('admin_products_delete', pid=p['id']) }}">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">MGM Cloths - Invoice #{{ order['id'] }}</h2>
+<div class="card">
+  <p>Shop: MGM Cloths</p>
+  <p>Contact: support@mgmstore.com • +91-90000-00000</p>
+  <p class="meta">Order Date: {{ order['created_at'] }}</p>
+  <p>Customer: {{ customer['name'] }}</p>
+  <p class="meta">Status: {{ order['status'] }}</p>
+  <p><strong>Order Total:</strong> ₹{{ '%.2f'|format(order['total']) }}</p>
+  {% if order['shipping_address'] %}
+  <p>Ship To: {{ order['shipping_address'] }}</p>
+  {% endif %}
+  {% if order['door_no'] or order['street'] or order['place'] %}
+  <p class="meta">Address Details: {{ order['door_no'] }} {{ order['street'] }}, {{ order['landmark'] }}, {{ order['place'] }}, {{ order['district'] }}, {{ order['state'] }} - {{ order['pincode'] }}</p>
+  {% if order['alt_mobile'] %}<p class="meta">Alt Mobile: {{ order['alt_mobile'] }}</p>{% endif %}
+  {% endif %}
+</div>
+<table class="table">
+    <tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+    {% set total = 0 %}
+    {% for it in items %}
+    {% set subtotal = it['quantity'] * it['price'] %}
+    {% set total = total + subtotal %}
+    <tr>
+        <td>{{ it['name'] }}</td>
+        <td>{{ it['quantity'] }}</td>
+        <td>₹{{ '%.2f'|format(it['price']) }}</td>
+        <td>₹{{ '%.2f'|format(subtotal) }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3" class="invoice-total">Total</td>
+        <td class="invoice-total">₹{{ '%.2f'|format(total) }}</td>
+    </tr>
+</table>
+<div class="actions">
+    <a class="btn" href="#" onclick="window.print(); return false;">Print Bill</a>
+    <a class="btn btn-outline" href="/admin/orders">Back to Orders</a>
+</div>
+{% endblock %}

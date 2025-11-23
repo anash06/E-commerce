@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">Admin Dashboard</h2>
+<div class="btn-group">
+    <a class="btn" href="{{ url_for('admin_products') }}">Manage Products</a>
+    <a class="btn" href="{{ url_for('admin_customers') }}">Manage Customers</a>
+    <a class="btn" href="{{ url_for('admin_orders') }}">Manage Orders</a>
+    <a class="btn" href="{{ url_for('sales_report') }}">Sales Report</a>
+    <a class="btn" href="{{ url_for('export_all_excel') }}">Sync Excel</a>
+</div>
+{% endblock %}

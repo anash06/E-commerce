@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">New Order</h2>
+<form method="post" class="form">
+    <div class="field">
+        <label>Customer</label>
+        <select name="customer_id" required>
+            {% for c in customers %}
+            <option value="{{ c['id'] }}">{{ c['name'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px">
+        <div class="field"><label>Door No</label><input name="door_no" required></div>
+        <div class="field"><label>Street</label><input name="street" required></div>
+        <div class="field"><label>Landmark</label><input name="landmark"></div>
+        <div class="field"><label>Place</label><input name="place" required></div>
+        <div class="field"><label>District</label><input name="district" required></div>
+        <div class="field"><label>State</label><input name="state" required></div>
+        <div class="field"><label>Alternative Mobile No</label><input name="alt_mobile" pattern="[0-9]{10}"></div>
+        <div class="field"><label>Pincode</label><input name="pincode" pattern="[0-9]{6}" required></div>
+    </div>
+    <div class="field"><label>Items</label></div>
+    {% for p in products %}
+    <div class="card" style="margin-bottom:10px;">
+        <div class="list-item">
+            <div>
+                <strong>{{ p['name'] }}</strong>
+                <div class="meta">₹{{ '%.2f'|format(p['price']) }} • Stock {{ p['stock'] }}</div>
+            </div>
+            <div>
+                <input type="number" name="qty_{{ p['id'] }}" min="0" value="0" style="width:100px">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="actions"><button class="btn" type="submit">Create</button><a class="btn btn-outline" href="{{ url_for('admin_orders') }}">Back</a></div>
+</form>
+{% endblock %}

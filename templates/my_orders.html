@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="section-title">My Orders</h2>
+<table class="table">
+    <tr><th>ID</th><th>Status</th><th>Total</th><th>Created</th><th>Actions</th></tr>
+    {% for o in orders %}
+    <tr>
+        <td>{{ o['id'] }}</td>
+        <td>{{ o['status'] }}</td>
+        <td>₹{{ '%.2f'|format(o['total']) }}</td>
+        <td>{{ o['created_at'] }}</td>
+        <td>
+            <a class="btn" href="/order/{{ o['id'] }}/invoice">Invoice</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
